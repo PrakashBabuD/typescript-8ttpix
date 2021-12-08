@@ -8,6 +8,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import * as d3 from 'd3';
+import moment from 'moment';
 
 const fromDate = new Date('2009-01-01');
 const toDate = new Date('2009-12-31');
@@ -29,8 +30,7 @@ const timer$ = merge(pause$, resume$)
       console.log('value from switch map', value);
     }),
     scan((acc, curr: Date) => {
-      console.log(curr);
-      return curr ? new Date().setDate(curr.getDate() + 1) : acc;
+      return curr ? moment(acc).add(1, 'days') : acc;
     }, fromDate),
     takeWhile((v) => v <= toDate)
   )
