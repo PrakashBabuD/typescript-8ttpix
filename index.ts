@@ -37,9 +37,6 @@ const timer$ = merge(pause$, resume$, start$)
     takeWhile((v) => v <= toDate)
   )
   .subscribe((val: any) => {
-    /* let days = d3
-      .scaleLinear()
-      .domain([0, 100])
-      .range([new Date('2009-01-01'), new Date('2009-12-31')]);*/
-    remainingLabel.innerHTML = val;
+    let days = d3.scaleLinear().domain([fromDate, toDate]).range([0, 100]);
+    remainingLabel.innerHTML = days(val);
   });
