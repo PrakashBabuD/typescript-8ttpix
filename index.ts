@@ -16,15 +16,17 @@ const toDate = new Date('2009-12-31');
 const remainingLabel = document.getElementById('remaining');
 const pauseButton = document.getElementById('pause');
 const resumeButton = document.getElementById('resume');
+const startButton = document.getElementById('start');
 
 // streams
-const interval$ = interval(1000).pipe(mapTo(1));
+const interval$ = interval(1000);
 const pause$ = fromEvent(pauseButton, 'click').pipe(mapTo(false));
 const resume$ = fromEvent(resumeButton, 'click').pipe(mapTo(true));
+const start$ = fromEvent(startButton, 'click').pipe(mapTo(true));
 
-const timer$ = merge(pause$, resume$)
+const timer$ = merge(pause$, resume$, start$)
   .pipe(
-    startWith(true),
+    startWith(false),
     switchMap((val) => (val ? interval$ : empty())),
     tap((value) => {
       console.log('value from switch map', value);
